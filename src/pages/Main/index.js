@@ -2,8 +2,20 @@ import './styles.css';
 
 function Main() {
   return (
-    <div>
-      <h1>Main</h1>
+    <div className="container-main">
+      <input type= "file" />
+
+      <button className='btn-purple'>
+        Upload form-data
+      </button>
+      <button className='btn-orange'>
+        Upload base64
+      </button>
+    <div className="container-image">
+      <img src="" alt="upload"/>
+    </div>
+
+
     </div>
   );
 }
