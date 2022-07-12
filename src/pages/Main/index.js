@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './styles.css';
-import api from '../../services/api'
+import api from '../../services/api';
+import { fileToBase64 } from '../../utils/coverters';
 
 function Main() {
   const [file, setFile] = useState('');
@@ -28,6 +29,30 @@ function Main() {
     }
   }
 
+  async function handleUploadBase64(){
+    if (!file){
+      return
+    }
+
+    try {
+      const imageBase64 = await fileToBase64(file);
+
+      if(!imageBase64) {
+        return;
+      }
+  
+      const body = {
+        image: imageBase64
+      }
+      
+      const response = await api.post('/upload/base64', {...body});
+
+      const { url } = response.data
+
+      setImage(url);
+    } catch (error) {      
+    }
+  }
   return (
     <div className="container-main">
 
@@ -38,14 +63,18 @@ function Main() {
       />
 
       <button
-         type='button'
-         className='btn-purple'
-         onClick={handleUploadFormData}
-         >
+        type='button'
+        className='btn-purple'
+        onClick={handleUploadFormData}
+      >
 
         Upload form-data
       </button>
-      <button className='btn-orange'>
+      <button 
+        type='button'
+        className='btn-orange'
+        onClick={handleUploadBase64}
+      >
         Upload base64
       </button>
     <div className="container-image">
